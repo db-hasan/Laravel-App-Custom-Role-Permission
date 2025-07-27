@@ -26,30 +26,6 @@ class RightSeeder extends Seeder
             ['id' => 7, 'name' => 'Role.edit', 'module' => 'Role'],
             ['id' => 8, 'name' => 'Role.delete', 'module' => 'Role'],
 
-            // Chamber
-            ['id' => 9, 'name' => 'Chamber.view', 'module' => 'Chamber'],
-            ['id' => 10, 'name' => 'Chamber.create', 'module' => 'Chamber'],
-            ['id' => 11, 'name' => 'Chamber.edit', 'module' => 'Chamber'],
-            ['id' => 12, 'name' => 'Chamber.delete', 'module' => 'Chamber'],
-
-            // Floor
-            ['id' => 13, 'name' => 'Floor.view', 'module' => 'Floor'],
-            ['id' => 14, 'name' => 'Floor.create', 'module' => 'Floor'],
-            ['id' => 15, 'name' => 'Floor.edit', 'module' => 'Floor'],
-            ['id' => 16, 'name' => 'Floor.delete', 'module' => 'Floor'],
-
-            // Block
-            ['id' => 17, 'name' => 'Block.view', 'module' => 'Block'],
-            ['id' => 18, 'name' => 'Block.create', 'module' => 'Block'],
-            ['id' => 19, 'name' => 'Block.edit', 'module' => 'Block'],
-            ['id' => 20, 'name' => 'Block.delete', 'module' => 'Block'],
-
-            // Pricing
-            ['id' => 21, 'name' => 'Pricing.view', 'module' => 'Pricing'],
-            ['id' => 22, 'name' => 'Pricing.create', 'module' => 'Pricing'],
-            ['id' => 23, 'name' => 'Pricing.edit', 'module' => 'Pricing'],
-            ['id' => 24, 'name' => 'Pricing.delete', 'module' => 'Pricing'],
-
             // Variation
             ['id' => 25, 'name' => 'Variation.view', 'module' => 'Variation'],
             ['id' => 26, 'name' => 'Variation.create', 'module' => 'Variation'],

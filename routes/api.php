@@ -24,7 +24,7 @@ use App\Http\Controllers\UserController;
 */
 
 Route::prefix('v1')->group(function () {
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/login', [AuthController::class, 'apiLogin']);
 });
 
 

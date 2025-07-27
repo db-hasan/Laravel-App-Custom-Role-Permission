@@ -6,29 +6,9 @@ use App\Models\Right;
 use App\Models\Role;
 use App\Models\RoleRight;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Exception;
-use Session;
-
 
 class RoleRightController extends Controller
 {
-    public function indexRole() {
-        $roles = Role::all();
-        return view('backend.role.index', compact('roles'));
-    }
-
-    public function indexRight() {
-        $rights = Right::all();
-        return view('backend.right.index', compact('rights'));
-    }
-
-    public function getRoleForRight() {
-        $roles = Role::all();
-        return view('backend.role-right.index', compact('roles'));
-    }
-    
-
     public function index(Request $request)
     {
 
@@ -122,24 +102,24 @@ class RoleRightController extends Controller
         }
     }
 
-    // public function indexRight(Request $request)
-    // {
+    public function indexRight(Request $request)
+    {
 
-    //     $search = $request->query('search');
-    //     $perPage = $request->query('per_page', 10);
+        $search = $request->query('search');
+        $perPage = $request->query('per_page', 10);
 
-    //     $right = Right::when($search, function ($query, $search) {
-    //         return $query->where('name', 'LIKE', "%$search%");
-    //         // ->orWhere('country_code', 'LIKE', "%$search%");
-    //     })
-    //         ->orderBy('id', 'desc')
-    //         ->paginate($perPage);
+        $right = Right::when($search, function ($query, $search) {
+            return $query->where('name', 'LIKE', "%$search%");
+            // ->orWhere('country_code', 'LIKE', "%$search%");
+        })
+            ->orderBy('id', 'desc')
+            ->paginate($perPage);
 
-    //     return response()->json([
-    //         'status' => true,
-    //         'data'   => $right
-    //     ], 200);
-    // }
+        return response()->json([
+            'status' => true,
+            'data'   => $right
+        ], 200);
+    }
 
     public function storeRight(Request $request)
     {

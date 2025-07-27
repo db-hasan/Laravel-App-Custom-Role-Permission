@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\RoleRightController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,44 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [AuthController::class, 'login'])->name('login');
+Route::post('/', [AuthController::class, 'adminlogin'])->name('admin.login');
+
+        Route::get('/dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Role Right start
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/get-role', [RoleRightController::class, 'indexRole'])->name('index.role');
+        Route::post('/insert-role', [RoleRightController::class, 'createRole'])->name('create.role');
+        Route::post('/insert-role', [RoleRightController::class, 'storeRole'])->name('store.role');
+        Route::put('/update-role/{id}', [RoleRightController::class, 'editRole'])->name('edit.role');
+        Route::put('/update-role/{id}', [RoleRightController::class, 'updateRole'])->name('update.role');
+        Route::delete('/delete-role/{id}', [RoleRightController::class, 'deleteRole'])->name('delete.role');
+
+
+        Route::get('/get-right', [RoleRightController::class, 'indexRight'])->name('index.right');
+        Route::post('/insert-right', [RoleRightController::class, 'createRight'])->name('create.right');
+        Route::post('/insert-right', [RoleRightController::class, 'storeRight'])->name('store.right');
+        Route::put('/update-right/{id}', [RoleRightController::class, 'editRight'])->name('edit.right');
+        Route::put('/update-right/{id}', [RoleRightController::class, 'updateRight'])->name('update.right');
+        Route::delete('/delete-right/{id}', [RoleRightController::class, 'deleteRight'])->name('delete.right');
+
+        Route::get('/get-role-for-right', [RoleRightController::class, 'getRoleForRight'])->name('get.role.for.right');
+        Route::get('/get-role-right', [RoleRightController::class, 'indexRoleRight'])->name('index.RoleRigh');
+        Route::get('/specific-role-right', [RoleRightController::class, 'specificRoleRight'])->name('specific.RoleRigh');
+        Route::post('/update-role-right', [RoleRightController::class, 'updateRoleRights'])->name('update.RoleRigh');
+
+        /*
+        |--------------------------------------------------------------------------
+        | User start
+        |--------------------------------------------------------------------------
+        */
+        Route::get('index-user',[UserController::class, 'indexUser'])->name('index.user');
+        Route::get('insert-user',[UserController::class,'createUser'])->name('create.user');
+        Route::post('insert-user',[UserController::class,'storeUser'])->name('store.user');
+        Route::get('update-user/{id}',[UserController::class,'editUser'])->name('edit.user');
+        Route::put('update-user/{id}',[UserController::class,'updateUser'])->name('update.user');

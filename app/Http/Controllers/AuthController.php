@@ -4,10 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use App\Models\User;
+use Exception;
+use Session;
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
+    public function login() {
+        return view('backend.user.login');
+    }
+
+
+    public function apiLogin(Request $request)
     {
         try {
             $credentials = $request->validate([
