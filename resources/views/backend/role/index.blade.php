@@ -3,7 +3,7 @@
     <main id="main" class="main">
         <div class="d-flex justify-content-between">
             <div class="pagetitle">
-                <h1>User List</h1>
+                <h1>Role List</h1>
                 <nav>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
@@ -33,6 +33,12 @@
                             <td>{{ $role->name}}</td>
                             <td class="d-flex justify-content-end">
                                 <a href="{{ route('edit.role', $role->id) }}" class="btn text-primary mx-1"><i class="bi bi-pencil-square"></i></a>
+                                <form action="{{ route('delete.role', $role->id) }}" method="POST" class="d-inline deleteForm">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn text-danger btnDelete"><i class="bi bi-trash"></i></button>
+                                </form>
+
                             </td>
                         </tr>
                     @endforeach

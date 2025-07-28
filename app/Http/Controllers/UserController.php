@@ -11,138 +11,82 @@ use Exception;
 
 class UserController extends Controller
 {
-    /**
-     * Display a paginated listing of users.
-     */
-    public function indexUser(Request $request)
+    public function indexUser()
     {
-        $search = $request->query('search');
-        $perPage = $request->query('per_page', 10);
-        $roles = Role::all();
-
-        $users = User::when($search, function ($query, $search) {
-                return $query->where('name', 'LIKE', "%$search%")
-                             ->orWhere('email', 'LIKE', "%$search%")
-                             ->orWhere('phone', 'LIKE', "%$search%");
-            })
-            ->with('role:id,name')
-            ->orderBy('id', 'desc')
-            ->paginate($perPage);
-
-        return response()->json([
-            'status' => true,
-            'data' => $users,
-            'roles' => $roles,
-        ], 200);
+        $users = User::with('role')->get();
+        return view('backend.user.index', compact('users'));
     }
 
-    /**
-     * Store a newly created user.
-     */
+
+    public function createUser()
+    {
+        $roles = Role::all();
+        return view('backend.user.create', compact('roles'));
+    }
+
+
     public function storeUser(Request $request)
     {
         $request->validate([
             'role_id' => 'required|exists:roles,id',
-            'name'    => 'required|string|max:255',
-            'email'   => 'required|email|unique:users,email',
-            'phone'   => 'required|string|unique:users,phone',
-            'password'=> 'required|string|min:6',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required|string|unique:users,phone',
+            'password' => 'required|string|min:6|confirmed', 
+            'status' => 'nullable|string|in:active,inactive',
         ]);
 
         try {
-            $user = User::create([
-                'role_id' => $request->role_id,
-                'name'    => $request->name,
-                'email'   => $request->email,
-                'phone'   => $request->phone,
-                'password'=> Hash::make($request->password),
-            ]);
+            $user = new User();
+            $user->role_id = $request->role_id;
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->phone = $request->phone;
+            $user->password = Hash::make($request->password); // hash password
+            $user->status = $request->status ?? 'active';
+            $user->save();
 
-            return response()->json([
-                'status' => true,
-                'message' => 'User created successfully.',
-                'data' => $user,
-            ], 200);
-        } catch (Exception $e) {
-            Log::error('Error creating User: ' . $e->getMessage());
-
-            return response()->json([
-                'status' => false,
-                'message' => 'Error creating User.',
-                'error' => $e->getMessage(),
-            ], 500);
+            return redirect()->route('index.user')->with('success', 'User created successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('index.user')->with('error', 'An error occurred. Please try again.');
         }
     }
 
-    /**
-     * Update the specified user.
-     */
+    public function editUser($id)
+    {
+        $user = User::find($id);
+        if (!$user) {
+            return redirect()->route('index.user')->with('error', 'User not found.');
+        }
+        return view('backend.user.edit', compact('user'));
+    }
+
+
     public function updateUser(Request $request, $id)
     {
         $request->validate([
-            'role_id' => 'required|exists:roles,id',
-            'name'    => 'required|string|max:255',
-            'email'   => 'required|email|unique:users,email,' . $id,
-            'phone'   => 'required|string|unique:users,phone,' . $id,
-            'password'=> 'nullable|string|min:6',
-            'status'     => 'required|in:active,inactive',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'phone' => 'required|string|unique:users,phone,' . $id,
+            'password' => 'nullable|string|min:6|confirmed',
+            'status' => 'nullable|string|in:active,inactive',
         ]);
 
         try {
             $user = User::findOrFail($id);
-
-            $updateData = [
-                'role_id' => $request->role_id,
-                'name'    => $request->name,
-                'email'   => $request->email,
-                'phone'   => $request->phone,
-                'status'     => $request->status,
-            ];
-
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->phone = $request->phone;
             if ($request->filled('password')) {
-                $updateData['password'] = Hash::make($request->password);
+                $user->password = Hash::make($request->password);
             }
+            $user->status = $request->status ?? $user->status;
+            $user->save();
 
-            $user->update($updateData);
-
-            return response()->json([
-                'status' => true,
-                'message' => 'User updated successfully.',
-                'data' => $user,
-            ], 200);
-        } catch (Exception $e) {
-            Log::error('Error updating User: ' . $e->getMessage());
-
-            return response()->json([
-                'status' => false,
-                'message' => 'Error updating User.',
-                'error' => $e->getMessage(),
-            ], 500);
+            return redirect()->route('index.user')->with('success', 'User updated successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('index.user')->with('error', 'An error occurred. Please try again.');
         }
     }
 
-    /**
-     * Remove the specified user.
-     */
-    public function destroyUser($id)
-    {
-        try {
-            $user = User::findOrFail($id);
-            $user->delete();
-
-            return response()->json([
-                'status' => true,
-                'message' => 'User deleted successfully.',
-                'data' => null,
-            ], 200);
-        } catch (Exception $e) {
-            Log::error('Error deleting User: ' . $e->getMessage());
-
-            return response()->json([
-                'status' => false,
-                'message' => 'Error deleting User.',
-                'error' => $e->getMessage(),
-            ], 500);
-        }
-    }
 }

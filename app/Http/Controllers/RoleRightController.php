@@ -13,39 +13,14 @@ use Session;
 
 class RoleRightController extends Controller
 {
+    
     public function indexRole() {
         $roles = Role::all();
         return view('backend.role.index', compact('roles'));
     }
 
-    public function indexRight() {
-        $rights = Right::all();
-        return view('backend.right.index', compact('rights'));
-    }
-
-    public function getRoleForRight() {
-        $roles = Role::all();
-        return view('backend.role-right.index', compact('roles'));
-    }
-    
-
-    public function index(Request $request)
-    {
-
-        $search = $request->query('search');
-        $perPage = $request->query('per_page', 10);
-
-        $role = Role::when($search, function ($query, $search) {
-            return $query->where('name', 'LIKE', "%$search%")
-                ->orWhere('country_code', 'LIKE', "%$search%");
-        })
-            ->orderBy('id', 'desc')
-            ->paginate($perPage);
-
-        return response()->json([
-            'status' => true,
-            'data'   => $role
-        ], 200);
+    public function createRole() {
+        return view('backend.role.create');
     }
 
     public function storeRole(Request $request)
@@ -54,214 +29,183 @@ class RoleRightController extends Controller
             'name' => 'required|string|unique:roles,name',
         ]);
 
-        $role = Role::create([
-            'name' => $request->name,
-        ]);
+        try {
+            $data = new Role();
+            $data->name = $request->name;
+            $data->save();
+            return redirect()->route('index.role')->with('success', 'Data created successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('index.role')->with('error', 'An error occurred. Please try again.');
+        }
+    }
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Role created successfully',
-        ], 201);
+    public function editRole($id){
+        $roles['role'] = Role::find($id);
+        if (!$roles['role']) {
+            return redirect()->back();
+        }     
+        return view('backend.role.edit', $roles);
     }
 
     public function updateRole(Request $request, $id)
     {
-        $request->validate([
+         $request->validate([
             'name' => 'required|string|unique:roles,name,' . $id,
         ]);
 
-        // Find role by ID
-        $role = Role::find($id);
+        
+        try {
+            $data = Role::findOrFail($id);
+            $data->name = $request->input('name');
+            $data->save();
 
-        if (!$role) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Role not found',
-            ], 404);
+            return redirect()->route('index.role')->with('success', 'Data update successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('index.role')->with('error', 'An error occurred. Please try again.');
         }
-
-        // Update role
-        $role->update([
-            'name' => $request->name,
-        ]);
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Role updated successfully',
-            'role' => $role,
-        ], 200);
     }
 
     public function deleteRole($id)
     {
         try {
-            // Find the role by ID
             $role = Role::find($id);
 
             if (!$role) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Role not found',
-                ], 404);
+                return redirect()->route('index.role')->with('error', 'Role not found.');
             }
 
-            // Delete the role
             $role->delete();
 
-            return response()->json([
-                'status' => true,
-                'message' => 'Role deleted successfully',
-            ], 200);
+            return redirect()->route('index.role')->with('success', 'Role deleted successfully.');
         } catch (\Exception $e) {
-            // Handle unexpected errors
-            return response()->json([
-                'status' => false,
-                'message' => 'An error occurred while deleting the role',
-                'error' => $e->getMessage(),
-            ], 500);
+            return redirect()->route('index.role')->with('error', 'An error occurred while deleting the role.');
         }
     }
 
-    // public function indexRight(Request $request)
-    // {
 
-    //     $search = $request->query('search');
-    //     $perPage = $request->query('per_page', 10);
+    // Show all rights
+    public function indexRight() {
+        $rights = Right::all();
+        return view('backend.right.index', compact('rights'));
+    }
 
-    //     $right = Right::when($search, function ($query, $search) {
-    //         return $query->where('name', 'LIKE', "%$search%");
-    //         // ->orWhere('country_code', 'LIKE', "%$search%");
-    //     })
-    //         ->orderBy('id', 'desc')
-    //         ->paginate($perPage);
+    // Show create form
+    public function createRight() {
+        return view('backend.right.create');
+    }
 
-    //     return response()->json([
-    //         'status' => true,
-    //         'data'   => $right
-    //     ], 200);
-    // }
-
-    public function storeRight(Request $request)
-    {
+    // Store new right
+    public function storeRight(Request $request) {
         $request->validate([
             'name' => 'required|string|unique:rights,name',
             'module' => 'required|string',
         ]);
 
-        $Right = Right::create([
-            'name' => $request->module . '.' . $request->name,
-            'module' => $request->module,
-        ]);
+        try {
+            $right = new Right();
+            $right->name = $request->module . '.' . $request->name;
+            $right->module = $request->module;
+            $right->save();
 
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Right created successfully',
-        ], 201);
+            return redirect()->route('index.right')->with('success', 'Right created successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('index.right')->with('error', 'An error occurred. Please try again.');
+        }
     }
-    public function updateRight(Request $request, $id)
-    {
+
+    // Show edit form
+    public function editRight($id) {
+        $rights['right'] = Right::find($id);
+        if (!$rights['right']) {
+            return redirect()->back();
+        }
+        return view('backend.right.edit', $rights);
+    }
+
+    // Update right
+    public function updateRight(Request $request, $id) {
         $request->validate([
             'name' => 'required|string|unique:rights,name,' . $id,
             'module' => 'required|string',
-
         ]);
 
-        // Find role by ID
-        $role = Right::find($id);
+        try {
+            $right = Right::findOrFail($id);
+            $right->name = $request->module . '.' . $request->name;
+            $right->module = $request->module;
+            $right->save();
 
-        if (!$role) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Right not found',
-            ], 404);
+            return redirect()->route('index.right')->with('success', 'Right updated successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('index.right')->with('error', 'An error occurred. Please try again.');
         }
-
-        // Update role
-        $role->update([
-            'name' => $request->module . '.' . $request->name,
-            'module' => $request->module,
-        ]);
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Right updated successfully',
-            'role' => $role,
-        ], 200);
     }
 
-    public function deleteRight($id)
-    {
+    // Delete right
+    public function deleteRight($id) {
         try {
-            // Find the role by ID
-            $role = Right::find($id);
-
-            if (!$role) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Right not found',
-                ], 404);
+            $right = Right::find($id);
+            if (!$right) {
+                return redirect()->route('index.right')->with('error', 'Right not found.');
             }
 
-            // Delete the role
-            $role->delete();
-
-            return response()->json([
-                'status' => true,
-                'message' => 'Right deleted successfully',
-            ], 200);
+            $right->delete();
+            return redirect()->route('index.right')->with('success', 'Right deleted successfully.');
         } catch (\Exception $e) {
-            // Handle unexpected errors
-            return response()->json([
-                'status' => false,
-                'message' => 'An error occurred while deleting the Right',
-                'error' => $e->getMessage(),
-            ], 500);
+            return redirect()->route('index.right')->with('error', 'An error occurred while deleting the right.');
         }
     }
 
-    public function specificRoleRight(Request $request)
-    {
 
-        $search = $request->query('search');
-        $perPage = $request->query('per_page', 10);
 
-        $right = RoleRight::with('right','role')
-            ->orderBy('id', 'desc')
-            ->where('role_id',$request->role_id)
-            ->get();
-
-        return response()->json([
-            'status' => true,
-            'data'   => $right
-        ], 200);
+    public function getRoleForRight() {
+        $roles = Role::all();
+        return view('backend.role-right.index', compact('roles'));
     }
 
-    public function indexRoleRight(Request $request)
+
+    public function getRightForRole(Request $request, $id)
     {
-        $roleId = $request->role_id;
+        $role = Role::find($id);
+
+        if (!$role) {
+            return redirect()->route('index.role')->with('error', 'Invalid Role ID.');
+        }
+
         $rights = Right::all()->groupBy('module');
-        $selectedRights = RoleRight::where('role_id', $roleId)->pluck('right_id')->toArray();
-        return response()->json([
-            'rights' => $rights,
-            'selected_rights' => $selectedRights
-        ]);
+        $selectedRights = RoleRight::where('role_id', $id)->pluck('right_id')->toArray();
+
+        return view('backend.role-right.edit', compact('role', 'rights', 'selectedRights'));
     }
+
 
     public function updateRoleRights(Request $request)
     {
-        $roleId = $request->role_id;
-        $selectedRights = $request->selected_rights;
+        $request->validate([
+            'role_id' => 'required|exists:roles,id',
+            'selected_rights' => 'nullable|array',
+            'selected_rights.*' => 'exists:rights,id'
+        ]);
 
-        RoleRight::where('role_id', $roleId)->delete();
-        foreach ($selectedRights as $rightId) {
-            RoleRight::create([
-                'role_id' => $roleId,
-                'right_id' => $rightId
-            ]);
+        try {
+            $roleId = $request->role_id;
+            $selectedRights = $request->selected_rights ?? [];
+
+            // Remove old rights
+            RoleRight::where('role_id', $roleId)->delete();
+
+            // Insert new rights
+            foreach ($selectedRights as $rightId) {
+                RoleRight::create([
+                    'role_id' => $roleId,
+                    'right_id' => $rightId
+                ]);
+            }
+
+            return redirect()->route('index.role')->with('success', 'Permissions updated successfully!');
+        } catch (\Exception $e) {
+            return redirect()->route('index.role')->with('error', 'An error occurred while updating permissions.');
         }
-
-        return response()->json(['message' => 'Permissions updated successfully!']);
     }
 
 }

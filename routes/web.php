@@ -43,11 +43,11 @@ Route::post('/', [AuthController::class, 'adminlogin'])->name('admin.login');
         Route::get('/update-right/{id}', [RoleRightController::class, 'editRight'])->name('edit.right');
         Route::put('/update-right/{id}', [RoleRightController::class, 'updateRight'])->name('update.right');
         Route::delete('/delete-right/{id}', [RoleRightController::class, 'deleteRight'])->name('delete.right');
+        
 
         Route::get('/get-role-for-right', [RoleRightController::class, 'getRoleForRight'])->name('get.role.for.right');
-        Route::get('/get-role-right', [RoleRightController::class, 'indexRoleRight'])->name('index.RoleRigh');
-        Route::get('/specific-role-right', [RoleRightController::class, 'specificRoleRight'])->name('specific.RoleRigh');
-        Route::post('/update-role-right', [RoleRightController::class, 'updateRoleRights'])->name('update.RoleRigh');
+        Route::get('/get-right-for-role/{id}', [RoleRightController::class, 'getRightForRole'])->name('get.right.for.role');
+        Route::post('/update-role-right/{id}', [RoleRightController::class, 'updateRoleRights'])->name('update.role.right');
 
         /*
         |--------------------------------------------------------------------------

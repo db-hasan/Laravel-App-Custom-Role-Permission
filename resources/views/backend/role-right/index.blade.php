@@ -28,7 +28,7 @@
                             <td>{{$loop->iteration}}</td>
                             <td>{{ $role->name}}</td>
                             <td class="d-flex justify-content-end">
-                                <a href="{{ route('edit.role', $role->id) }}" class="btn text-primary mx-1"><i class="bi bi-pencil-square"></i></a>
+                                <a href="{{ route('get.right.for.role', $role->id) }}" class="btn text-primary mx-1"><i class="bi bi-pencil-square"></i></a>
                             </td>
                         </tr>
                     @endforeach

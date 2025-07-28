@@ -11,12 +11,10 @@
                     </ol>
                 </nav>
             </div>
-            @can('user-manage')
             <div class="text-end pt-2">
-                <a href="{{ route('user.create')}}" class="btn btn-primary"><i class="fas fa-plus-circle"></i>
+                <a href="{{ route('create.user')}}" class="btn btn-primary"><i class="fas fa-plus-circle"></i>
                     Add User</a>
             </div>
-            @endcan
         </div>
         <hr>
         <div class="custom-scrollbar-table">
@@ -29,9 +27,7 @@
                         <th>Email</th>
                         <th>Number</th>
                         <th>Status</th>
-                        @can('user-manage')
                         <th class="text-end">Action</th>
-                        @endcan
                     </tr>
                 </thead>
                 <tbody>
@@ -39,28 +35,13 @@
                         <tr>
                             <td>{{$loop->iteration}}</td>
                             <td>{{ $user->name}}</td>
-                            <td>
-                                @if(!empty($user->getRoleNames()))
-                                  @foreach($user->getRoleNames() as $name)
-                                     <label class="badge rounded-pill text-bg-primary">{{ $name }}</label>
-                                  @endforeach
-                                @endif
-                                <label class="badge rounded-pill text-bg-primary">{{$user->vendor }}</label>
-                            </td>
+                            <td>{{ $user->role->name}}</td>
                             <td>{{ $user->email}}</td>
-                            <td>{{ $user->number}}</td>
-                            <td>
-                                @if($user->status == 1)
-                                    Active
-                                @elseif($user->status == 2)
-                                    Inactive
-                                @endif
-                            </td>
-                            @can('user-manage')
+                            <td>{{ $user->phone}}</td>
+                            <td>{{ $user->status}}</td>
                             <td class="d-flex justify-content-end">
-                                <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary mx-1"><i class="bi bi-pencil-square"></i></a>
+                                <a href="{{ route('edit.user', $user->id) }}" class="btn text-primary mx-1"><i class="bi bi-pencil-square"></i></a>
                             </td>
-                            @endcan
                         </tr>
                     @endforeach
                 </tbody>

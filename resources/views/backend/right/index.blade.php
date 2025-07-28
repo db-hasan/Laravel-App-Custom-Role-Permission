@@ -3,7 +3,7 @@
     <main id="main" class="main">
         <div class="d-flex justify-content-between">
             <div class="pagetitle">
-                <h1>User List</h1>
+                <h1>Right List</h1>
                 <nav>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
@@ -12,8 +12,8 @@
                 </nav>
             </div>
             <div class="text-end pt-2">
-                <a href="{{ route('create.role')}}" class="btn btn-primary"><i class="fas fa-plus-circle"></i>
-                    Add Role</a>
+                <a href="{{ route('create.right')}}" class="btn btn-primary"><i class="fas fa-plus-circle"></i>
+                    Add Right</a>
             </div>
         </div>
         <hr>
@@ -34,7 +34,12 @@
                             <td>{{ $right->name}}</td>
                             <td>{{ $right->module}}</td>
                             <td class="d-flex justify-content-end">
-                                <a href="{{ route('edit.role', $right->id) }}" class="btn text-primary mx-1"><i class="bi bi-pencil-square"></i></a>
+                                <a href="{{ route('edit.right', $right->id) }}" class="btn text-primary mx-1"><i class="bi bi-pencil-square"></i></a>
+                                <form action="{{ route('delete.right', $right->id) }}" method="POST" class="d-inline deleteForm">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn text-danger btnDelete"><i class="bi bi-trash"></i></button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach
