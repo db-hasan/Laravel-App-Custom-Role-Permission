@@ -37,18 +37,12 @@
     <aside id="sidebar" class="sidebar">
         <ul class="sidebar-nav" id="sidebar-nav">
             <li class="nav-item">
-                <a class="nav-link collapsed" href="">
+                <a class="nav-link collapsed" href="{{ route('dashboard') }}">
                     <i class="bi bi-grid"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="">
-                    <i class="bi bi-shield-lock"></i>
-                    <span>Permission</span>
-                </a>
-            </li>
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('index.role', 'index.right', 'get.role.for.right') ? '' : 'collapsed' }}"
                     data-bs-target="#role-nav" data-bs-toggle="collapse" href="#">
@@ -91,7 +85,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="">
-                    <i class="bi bi-database-lock"></i>
+                    <i class="bi bi-shield-lock"></i>
                     <span>Password</span>
                 </a>
             </li>

@@ -30,17 +30,17 @@ Route::post('/', [AuthController::class, 'adminlogin'])->name('admin.login');
         */
 
         Route::get('/get-role', [RoleRightController::class, 'indexRole'])->name('index.role');
-        Route::post('/insert-role', [RoleRightController::class, 'createRole'])->name('create.role');
+        Route::get('/insert-role', [RoleRightController::class, 'createRole'])->name('create.role');
         Route::post('/insert-role', [RoleRightController::class, 'storeRole'])->name('store.role');
-        Route::put('/update-role/{id}', [RoleRightController::class, 'editRole'])->name('edit.role');
+        Route::get('/update-role/{id}', [RoleRightController::class, 'editRole'])->name('edit.role');
         Route::put('/update-role/{id}', [RoleRightController::class, 'updateRole'])->name('update.role');
         Route::delete('/delete-role/{id}', [RoleRightController::class, 'deleteRole'])->name('delete.role');
 
 
         Route::get('/get-right', [RoleRightController::class, 'indexRight'])->name('index.right');
-        Route::post('/insert-right', [RoleRightController::class, 'createRight'])->name('create.right');
+        Route::get('/insert-right', [RoleRightController::class, 'createRight'])->name('create.right');
         Route::post('/insert-right', [RoleRightController::class, 'storeRight'])->name('store.right');
-        Route::put('/update-right/{id}', [RoleRightController::class, 'editRight'])->name('edit.right');
+        Route::get('/update-right/{id}', [RoleRightController::class, 'editRight'])->name('edit.right');
         Route::put('/update-right/{id}', [RoleRightController::class, 'updateRight'])->name('update.right');
         Route::delete('/delete-right/{id}', [RoleRightController::class, 'deleteRight'])->name('delete.right');
 

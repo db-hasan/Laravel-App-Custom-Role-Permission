@@ -12,8 +12,8 @@
                 </nav>
             </div>
             <div class="text-end pt-2">
-                {{-- <a href="{{ route('create.role')}}" class="btn btn-primary"><i class="fas fa-plus-circle"></i>
-                    Add Role</a> --}}
+                <a href="{{ route('create.role')}}" class="btn btn-primary"><i class="fas fa-plus-circle"></i>
+                    Add Role</a>
             </div>
         </div>
         <hr>
@@ -32,7 +32,7 @@
                             <td>{{$loop->iteration}}</td>
                             <td>{{ $role->name}}</td>
                             <td class="d-flex justify-content-end">
-                                {{-- <a href="{{ route('edit.role', $role->id) }}" class="btn btn-primary mx-1"><i class="bi bi-pencil-square"></i></a> --}}
+                                <a href="{{ route('edit.role', $role->id) }}" class="btn text-primary mx-1"><i class="bi bi-pencil-square"></i></a>
                             </td>
                         </tr>
                     @endforeach
