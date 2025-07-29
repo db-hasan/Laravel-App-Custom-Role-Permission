@@ -226,26 +226,6 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/specific-role-right' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'specific.RoleRight',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
       '/index-user' => 
       array (
         0 => 
@@ -357,7 +337,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'update.RoleRight',
+            '_route' => 'update.role.right',
           ),
           1 => 
           array (
@@ -662,6 +642,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'web',
+          1 => 'auth',
         ),
         'uses' => 'App\\Http\\Controllers\\DashboardController@dashboard',
         'controller' => 'App\\Http\\Controllers\\DashboardController@dashboard',
@@ -699,6 +680,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'web',
+          1 => 'auth',
         ),
         'uses' => 'App\\Http\\Controllers\\RoleRightController@indexRole',
         'controller' => 'App\\Http\\Controllers\\RoleRightController@indexRole',
@@ -736,6 +718,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'web',
+          1 => 'auth',
         ),
         'uses' => 'App\\Http\\Controllers\\RoleRightController@createRole',
         'controller' => 'App\\Http\\Controllers\\RoleRightController@createRole',
@@ -772,6 +755,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'web',
+          1 => 'auth',
         ),
         'uses' => 'App\\Http\\Controllers\\RoleRightController@storeRole',
         'controller' => 'App\\Http\\Controllers\\RoleRightController@storeRole',
@@ -809,6 +793,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'web',
+          1 => 'auth',
         ),
         'uses' => 'App\\Http\\Controllers\\RoleRightController@editRole',
         'controller' => 'App\\Http\\Controllers\\RoleRightController@editRole',
@@ -845,6 +830,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'web',
+          1 => 'auth',
         ),
         'uses' => 'App\\Http\\Controllers\\RoleRightController@updateRole',
         'controller' => 'App\\Http\\Controllers\\RoleRightController@updateRole',
@@ -881,6 +867,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'web',
+          1 => 'auth',
         ),
         'uses' => 'App\\Http\\Controllers\\RoleRightController@deleteRole',
         'controller' => 'App\\Http\\Controllers\\RoleRightController@deleteRole',
@@ -918,6 +905,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'web',
+          1 => 'auth',
         ),
         'uses' => 'App\\Http\\Controllers\\RoleRightController@indexRight',
         'controller' => 'App\\Http\\Controllers\\RoleRightController@indexRight',
@@ -955,6 +943,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'web',
+          1 => 'auth',
         ),
         'uses' => 'App\\Http\\Controllers\\RoleRightController@createRight',
         'controller' => 'App\\Http\\Controllers\\RoleRightController@createRight',
@@ -991,6 +980,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'web',
+          1 => 'auth',
         ),
         'uses' => 'App\\Http\\Controllers\\RoleRightController@storeRight',
         'controller' => 'App\\Http\\Controllers\\RoleRightController@storeRight',
@@ -1028,6 +1018,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'web',
+          1 => 'auth',
         ),
         'uses' => 'App\\Http\\Controllers\\RoleRightController@editRight',
         'controller' => 'App\\Http\\Controllers\\RoleRightController@editRight',
@@ -1064,6 +1055,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'web',
+          1 => 'auth',
         ),
         'uses' => 'App\\Http\\Controllers\\RoleRightController@updateRight',
         'controller' => 'App\\Http\\Controllers\\RoleRightController@updateRight',
@@ -1100,6 +1092,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'web',
+          1 => 'auth',
         ),
         'uses' => 'App\\Http\\Controllers\\RoleRightController@deleteRight',
         'controller' => 'App\\Http\\Controllers\\RoleRightController@deleteRight',
@@ -1137,6 +1130,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'web',
+          1 => 'auth',
         ),
         'uses' => 'App\\Http\\Controllers\\RoleRightController@getRoleForRight',
         'controller' => 'App\\Http\\Controllers\\RoleRightController@getRoleForRight',
@@ -1174,6 +1168,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'web',
+          1 => 'auth',
         ),
         'uses' => 'App\\Http\\Controllers\\RoleRightController@getRightForRole',
         'controller' => 'App\\Http\\Controllers\\RoleRightController@getRightForRole',
@@ -1198,44 +1193,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'specific.RoleRight' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'specific-role-right',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-        ),
-        'uses' => 'App\\Http\\Controllers\\RoleRightController@specificRoleRight',
-        'controller' => 'App\\Http\\Controllers\\RoleRightController@specificRoleRight',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-        'as' => 'specific.RoleRight',
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'update.RoleRight' => 
+    'update.role.right' => 
     array (
       'methods' => 
       array (
@@ -1247,6 +1205,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'web',
+          1 => 'auth',
         ),
         'uses' => 'App\\Http\\Controllers\\RoleRightController@updateRoleRights',
         'controller' => 'App\\Http\\Controllers\\RoleRightController@updateRoleRights',
@@ -1255,7 +1214,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'update.RoleRight',
+        'as' => 'update.role.right',
       ),
       'fallback' => false,
       'defaults' => 
@@ -1284,6 +1243,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'web',
+          1 => 'auth',
         ),
         'uses' => 'App\\Http\\Controllers\\UserController@indexUser',
         'controller' => 'App\\Http\\Controllers\\UserController@indexUser',
@@ -1321,6 +1281,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'web',
+          1 => 'auth',
         ),
         'uses' => 'App\\Http\\Controllers\\UserController@createUser',
         'controller' => 'App\\Http\\Controllers\\UserController@createUser',
@@ -1357,6 +1318,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'web',
+          1 => 'auth',
         ),
         'uses' => 'App\\Http\\Controllers\\UserController@storeUser',
         'controller' => 'App\\Http\\Controllers\\UserController@storeUser',
@@ -1394,6 +1356,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'web',
+          1 => 'auth',
         ),
         'uses' => 'App\\Http\\Controllers\\UserController@editUser',
         'controller' => 'App\\Http\\Controllers\\UserController@editUser',
@@ -1430,6 +1393,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'web',
+          1 => 'auth',
         ),
         'uses' => 'App\\Http\\Controllers\\UserController@updateUser',
         'controller' => 'App\\Http\\Controllers\\UserController@updateUser',

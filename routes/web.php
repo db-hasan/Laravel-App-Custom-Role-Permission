@@ -21,6 +21,8 @@ use App\Http\Controllers\DashboardController;
 Route::get('/', [AuthController::class, 'login'])->name('login');
 Route::post('/', [AuthController::class, 'adminlogin'])->name('admin.login');
 
+Route::group(['middleware'=>'auth'],function(){
+
         Route::get('/dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
 
         /*
@@ -59,3 +61,4 @@ Route::post('/', [AuthController::class, 'adminlogin'])->name('admin.login');
         Route::post('insert-user',[UserController::class,'storeUser'])->name('store.user');
         Route::get('update-user/{id}',[UserController::class,'editUser'])->name('edit.user');
         Route::put('update-user/{id}',[UserController::class,'updateUser'])->name('update.user');
+});
